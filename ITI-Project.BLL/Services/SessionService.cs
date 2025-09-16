@@ -10,6 +10,7 @@ using ITI_Project.DAL.Models.Enums;
 using ITI_Project.DAL.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ITI_Project.BLL.Services
 {
@@ -63,10 +64,8 @@ namespace ITI_Project.BLL.Services
 
         public async Task<Pagination<SessionViewModel>> GetAllAsync(string? courseName, int pageIndex, int? pageSize)
         {
-            var query = _unitOfWork.Sessions.GetAllAsQueryable().Include(c => c.Course);
+            var query = _unitOfWork.Sessions.GetAllAsQueryable().Where(e=> courseName.IsNullOrEmpty() || e.Course.Name.ToLower().Contains(courseName.ToLower())).Include(c => c.Course);
 
-            if (!string.IsNullOrWhiteSpace(courseName))
-                query = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Session, Course?>)query.Where(c => c.Course.Name.Contains(courseName));
 
 
             var mapped = query.Select(session => new SessionViewModel
