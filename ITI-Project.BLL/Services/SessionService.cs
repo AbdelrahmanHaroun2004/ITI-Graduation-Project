@@ -64,7 +64,9 @@ namespace ITI_Project.BLL.Services
 
         public async Task<Pagination<SessionViewModel>> GetAllAsync(string? courseName, int pageIndex, int? pageSize)
         {
-            var query = _unitOfWork.Sessions.GetAllAsQueryable().Where(e=> courseName.IsNullOrEmpty() || e.Course.Name.ToLower().Contains(courseName.ToLower())).Include(c => c.Course);
+            var query = _unitOfWork.Sessions.GetAllAsQueryable()
+                .Where(e=> courseName.IsNullOrEmpty() || e.Course.Name.ToLower()
+                .Contains(courseName.ToLower())).Include(c => c.Course);
 
 
 
