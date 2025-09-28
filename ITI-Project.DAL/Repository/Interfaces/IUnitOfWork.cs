@@ -2,7 +2,7 @@
 
 namespace ITI_Project.DAL.Repository.Interfaces
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork 
     {
         ICourseRepository Courses { get; }
         ISessionRepository Sessions { get; }
